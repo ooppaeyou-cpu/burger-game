@@ -7,7 +7,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Burger Rush v9.2.1</title>
+<title>Burger Rush Clean v1.0</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -17,19 +17,17 @@
 <body>
 
 
-
-<!-- START SCREEN -->
+<!-- START -->
 
 <div id="startScreen">
 
-
 <h1>🍔 Burger Rush</h1>
 
-<h2>v9.2.1 Final Clean</h2>
+<h2>Clean v1.0</h2>
 
 
 <button onclick="startGame()">
-▶ START GAME
+START
 </button>
 
 
@@ -39,32 +37,21 @@
 
 
 
-
-
-
-<!-- LEVEL POPUP -->
-
+<!-- POPUP -->
 
 <div id="popup">
 
+<h1 id="popupTitle"></h1>
 
-<h1 id="popupTitle">
-</h1>
-
-
-<div id="popupText">
-</div>
+<p id="popupText"></p>
 
 
-<button onclick="closePopup()">
-ไปต่อ
+<button onclick="nextLevel()">
+ด่านต่อไป
 </button>
 
 
 </div>
-
-
-
 
 
 
@@ -74,9 +61,7 @@
 
 <!-- GAME -->
 
-
 <div id="game">
-
 
 
 <h1>
@@ -85,35 +70,22 @@
 
 
 
-
-
-
-
-<!-- TOP INFO -->
-
-
-<div class="top">
+<div class="info">
 
 
 <div>
-ด่าน:
-<span id="level">1</span>
+ด่าน <span id="level">1</span>
 </div>
-
 
 
 <div>
-💰
-<span id="money">0</span>
+💰 <span id="money">0</span>
 </div>
-
 
 
 <div>
-⭐
-<span id="score">0</span>
+⭐ <span id="score">0</span>
 </div>
-
 
 
 </div>
@@ -127,36 +99,35 @@
 
 <!-- STOCK -->
 
-
 <div id="stock">
 
 
-<h2>
-📦 STOCK
-</h2>
+<h2>📦 ของในร้าน</h2>
 
 
-🍖 เนื้อ :
+🍖 เนื้อ:
 <span id="meatStock">0</span>
 
+
 <br>
 
 
-🍟 เฟรน :
+🍟 เฟรน:
 <span id="friesStock">0</span>
 
+
 <br>
 
 
-🥤 น้ำ :
+🥤 น้ำ:
 <span id="drinkStock">0</span>
 
+
 <br>
 
 
-🍔 เบอร์เกอร์ :
+🍔 เบอร์เกอร์:
 <span id="burgerStock">0</span>
-
 
 
 </div>
@@ -168,9 +139,7 @@
 
 
 
-
 <!-- MISSION -->
-
 
 <div id="mission">
 
@@ -194,9 +163,7 @@
 
 
 
-
 <!-- CUSTOMER -->
-
 
 <h2>
 👥 ลูกค้า
@@ -210,9 +177,7 @@
 
 
 <h3 id="selected">
-
 ยังไม่ได้เลือกลูกค้า
-
 </h3>
 
 
@@ -225,7 +190,6 @@
 
 <!-- KITCHEN -->
 
-
 <div class="kitchen">
 
 
@@ -233,43 +197,38 @@
 
 
 
-
-<!-- MEAT -->
-
-<div class="station">
+<div class="box">
 
 
 <h2>
-🥩 ทอดเนื้อ
+🍖 เนื้อ
 </h2>
 
 
-<div class="circle">
+<div class="timer">
 
 <div id="meatTimer">
 0%
 </div>
 
-
 </div>
 
 
 
-<button onclick="cookMeat()">
-ทอดเนื้อ
+<button onclick="cook('meat')">
+ทอด
+</button>
+
+
+<button onclick="trash('meat')">
+ทิ้ง
 </button>
 
 
 
-<button onclick="throwMeat()">
-🗑 ทิ้ง
-</button>
-
-
-
-<div id="meatStatus">
+<p id="meatStatus">
 ว่าง
-</div>
+</p>
 
 
 </div>
@@ -281,19 +240,15 @@
 
 
 
-
-<!-- FRIES -->
-
-
-<div class="station">
+<div class="box">
 
 
 <h2>
-🍟 ทอดเฟรน
+🍟 เฟรน
 </h2>
 
 
-<div class="circle">
+<div class="timer">
 
 <div id="friesTimer">
 0%
@@ -303,21 +258,20 @@
 
 
 
-<button onclick="cookFries()">
-ทอดเฟรน
+<button onclick="cook('fries')">
+ทอด
+</button>
+
+
+<button onclick="trash('fries')">
+ทิ้ง
 </button>
 
 
 
-<button onclick="throwFries()">
-🗑 ทิ้ง
-</button>
-
-
-
-<div id="friesStatus">
+<p id="friesStatus">
 ว่าง
-</div>
+</p>
 
 
 </div>
@@ -329,69 +283,50 @@
 
 
 
-
-<!-- DRINK -->
-
-
-<div class="station">
+<div class="box">
 
 
 <h2>
-🥤 น้ำปั่น
+🥤 น้ำ
 </h2>
 
 
-
-<div class="circle">
-
+<div class="timer">
 
 <div id="drinkTimer">
 0%
 </div>
 
-
 </div>
 
 
 
+<button onclick="cook('drink')">
+ปั่น
+</button>
 
-<button onclick="makeDrink()">
 
-ปั่นน้ำ
-
+<button onclick="trash('drink')">
+ทิ้ง
 </button>
 
 
 
-<button onclick="throwDrink()">
-
-🗑 ทิ้ง
-
-</button>
-
-
-
-<div id="drinkStatus">
-
+<p id="drinkStatus">
 ว่าง
+</p>
+
 
 </div>
 
 
-</div>
 
 
 
 
 
 
-
-
-
-<!-- BURGER ASSEMBLE -->
-
-
-<div class="station">
+<div class="box">
 
 
 <h2>
@@ -400,72 +335,43 @@
 
 
 
-<div id="burgerStatus">
-
+<p id="burgerStatus">
 ยังไม่ได้ทำ
-
-</div>
-
+</p>
 
 
 
 <button onclick="makeBurger()">
+ประกอบ
+</button>
 
-ประกอบเบอร์เกอร์
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<button id="serveButton" onclick="serve()">
+
+🚗 เสิร์ฟ
 
 </button>
 
 
 
-</div>
-
-
-
-
-
+<h2 id="message"></h2>
 
 
 
 </div>
-
-
-
-
-
-
-
-
-
-<!-- SERVE -->
-
-
-<br>
-
-
-<button class="serve"
-onclick="serveCustomer()">
-
-🚗 เสิร์ฟลูกค้า
-
-</button>
-
-
-
-
-
-
-<h2 id="message">
-
-</h2>
-
-
-
-
-
-
-
-</div>
-
 
 
 
