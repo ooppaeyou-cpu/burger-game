@@ -1,11 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 
 <head>
 
-<title>Burger Rush v8.1</title>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+Burger Rush v8.3
+</title>
+
 
 <link rel="stylesheet" href="style.css">
+
 
 </head>
 
@@ -13,44 +21,61 @@
 <body>
 
 
+
+<!-- เสียง -->
+
 <audio id="bgm" loop>
+
 <source src="sounds/bgm.mp3">
+
 </audio>
+
 
 <audio id="clickSound">
+
 <source src="sounds/click.mp3">
+
 </audio>
+
 
 <audio id="successSound">
+
 <source src="sounds/success.mp3">
+
 </audio>
+
 
 <audio id="failSound">
+
 <source src="sounds/fail.mp3">
+
 </audio>
 
 
 
 
 
-<!-- START -->
+
+
+
+<!-- หน้าเริ่มเกม -->
 
 <div id="startScreen">
 
 
 <h1>
-🍔 Burger Rush v8.1
+🍔 Burger Rush
 </h1>
 
 
 <h2>
-ร้านเบอร์เกอร์สุดป่วน
+v8.3 Stock System
 </h2>
 
 
 <button onclick="startGame()">
 
-▶ START
+▶ START GAME
 
 </button>
 
@@ -65,20 +90,20 @@
 
 
 
-<!-- ผ่านด่าน -->
-
+<!-- Popup ผ่านด่าน -->
 
 <div id="levelPopup">
 
 
 <h1>
-🎉 ผ่านด่าน
+🎉 ผ่านด่าน!
 </h1>
 
 
 <div id="popupText">
 
 </div>
+
 
 
 <button onclick="nextLevel()">
@@ -98,7 +123,11 @@
 
 
 
+<!-- เกมหลัก -->
+
+
 <div id="game">
+
 
 
 <h1>
@@ -108,42 +137,103 @@
 
 
 
+
+<!-- ข้อมูลด้านบน -->
+
+
 <div class="top">
 
 
 <div>
+
 🏆 ด่าน
+
 <span id="level">
+
 1
+
 </span>
+
 </div>
 
 
+
 <div>
+
 💰
+
 <span id="money">
+
 0
+
 </span>
+
 </div>
 
 
+
 <div>
+
 ⭐
+
 <span id="score">
+
 0
+
 </span>
+
 </div>
+
 
 
 <div>
+
 👥 เสิร์ฟ
+
 <span id="served">
+
 0
+
 </span>
+
 </div>
 
 
+
 </div>
+
+
+
+
+
+
+
+
+
+<!-- สต็อก -->
+
+
+<div id="stockBox">
+
+
+🍖 เนื้อ x0
+
+<br>
+
+🍟 เฟรน x0
+
+<br>
+
+🥤 น้ำ x0
+
+<br>
+
+🍔 เบอร์เกอร์ x0
+
+
+</div>
+
+
 
 
 
@@ -158,18 +248,21 @@
 
 
 <h2>
+
 📋 ภารกิจ
+
 </h2>
 
 
 <div id="missionText">
 
-เริ่มเกมเพื่อดูภารกิจ
+เริ่มเกม
 
 </div>
 
 
 </div>
+
 
 
 
@@ -182,22 +275,22 @@
 
 
 <h2>
+
 👥 ลูกค้าในร้าน
+
 </h2>
 
 
-<div id="customers">
 
+<div id="customers">
 
 </div>
 
 
 
-
-
 <h3 id="selectedCustomer">
 
-เลือกลูกค้าเพื่อเสิร์ฟ
+เลือกลูกค้า
 
 </h3>
 
@@ -220,7 +313,8 @@
 
 
 
-<!-- เนื้อ -->
+<!-- ทอดเนื้อ -->
+
 
 <div class="station">
 
@@ -230,8 +324,8 @@
 </h2>
 
 
-<div id="meat"
-class="food">
+
+<div class="food">
 
 🥩
 
@@ -241,9 +335,13 @@ class="food">
 
 <div class="circle">
 
+
 <div id="meatProgress">
+
 0%
+
 </div>
+
 
 </div>
 
@@ -251,7 +349,10 @@ class="food">
 
 <p id="meatStatus">
 
+ยังไม่ได้ทอด
+
 </p>
+
 
 
 <button onclick="cookMeat()">
@@ -261,11 +362,13 @@ class="food">
 </button>
 
 
+
 <button onclick="throwMeat()">
 
 ทิ้ง
 
 </button>
+
 
 
 </div>
@@ -280,6 +383,7 @@ class="food">
 
 <!-- เฟรน -->
 
+
 <div class="station">
 
 
@@ -288,10 +392,10 @@ class="food">
 </h2>
 
 
-<div id="fries"
-class="food">
 
-🥔
+<div class="food">
+
+🍟
 
 </div>
 
@@ -299,9 +403,13 @@ class="food">
 
 <div class="circle">
 
+
 <div id="friesProgress">
+
 0%
+
 </div>
+
 
 </div>
 
@@ -309,7 +417,10 @@ class="food">
 
 <p id="friesStatus">
 
+ยังไม่ได้ทอด
+
 </p>
+
 
 
 <button onclick="cookFries()">
@@ -317,6 +428,7 @@ class="food">
 ทอดเฟรน
 
 </button>
+
 
 
 <button onclick="throwFries()">
@@ -338,6 +450,7 @@ class="food">
 
 <!-- น้ำ -->
 
+
 <div class="station">
 
 
@@ -346,10 +459,10 @@ class="food">
 </h2>
 
 
-<div id="drink"
-class="food">
 
-🍓
+<div class="food">
+
+🥤
 
 </div>
 
@@ -357,9 +470,13 @@ class="food">
 
 <div class="circle">
 
+
 <div id="drinkProgress">
+
 0%
+
 </div>
+
 
 </div>
 
@@ -367,7 +484,10 @@ class="food">
 
 <p id="drinkStatus">
 
+ยังไม่ได้ปั่น
+
 </p>
+
 
 
 <button onclick="blendDrink()">
@@ -375,6 +495,7 @@ class="food">
 ปั่นน้ำ
 
 </button>
+
 
 
 <button onclick="throwDrink()">
@@ -405,13 +526,12 @@ class="food">
 </h2>
 
 
-<div id="burger"
-class="food">
+
+<div class="food">
 
 🍞
 
 </div>
-
 
 
 
@@ -422,19 +542,23 @@ class="food">
 </div>
 
 
+
 <div id="assembleBar">
+
 
 <div id="assembleProgress">
 
 </div>
 
+
 </div>
+
 
 
 
 <button onclick="makeBurger()">
 
-ประกอบ
+ประกอบเบอร์เกอร์
 
 </button>
 
@@ -446,6 +570,7 @@ class="food">
 
 
 
+
 </div>
 
 
@@ -454,14 +579,20 @@ class="food">
 
 
 
+
+
+<!-- เสิร์ฟ -->
 
 
 <button class="serve"
 onclick="serveCustomer()">
 
-🚗 เสิร์ฟลูกค้าที่เลือก
+
+🚗 เสิร์ฟลูกค้า
+
 
 </button>
+
 
 
 
@@ -473,8 +604,9 @@ onclick="serveCustomer()">
 
 
 
-</div>
 
+
+</div>
 
 
 
