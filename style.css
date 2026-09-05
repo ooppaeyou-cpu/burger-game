@@ -1,16 +1,13 @@
 *{
-
 box-sizing:border-box;
-
 }
-
 
 
 body{
 
 margin:0;
 
-font-family:Arial,"Tahoma",sans-serif;
+font-family:Tahoma,Arial,sans-serif;
 
 background:#ffd166;
 
@@ -21,106 +18,23 @@ text-align:center;
 
 
 
-
-#game{
-
-display:none;
-
-width:95%;
-
-max-width:1200px;
-
-margin:20px auto;
-
-background:white;
-
-padding:20px;
-
-border-radius:30px;
-
-box-shadow:0 0 20px #999;
-
-}
-
-
-
-
-
-
-
-/* START */
-
-
-#startScreen,
-#popup{
-
-
-position:fixed;
-
-width:100%;
-
-height:100%;
-
-top:0;
-
-left:0;
-
-background:#ffd166;
-
-display:flex;
-
-flex-direction:column;
-
-justify-content:center;
-
-align-items:center;
-
-z-index:100;
-
-
-}
-
-
-
-#popup{
-
-display:none;
-
-}
-
-
-
-
-
-h1{
-
-font-size:45px;
-
-}
-
-
-
-
-
 button{
-
-
-border:none;
-
-border-radius:20px;
-
-padding:15px 25px;
 
 font-size:22px;
 
-margin:5px;
+padding:12px 25px;
+
+border:none;
+
+border-radius:15px;
 
 background:#3498db;
 
 color:white;
 
-cursor:pointer;
+margin:5px;
 
+cursor:pointer;
 
 }
 
@@ -136,15 +50,91 @@ transform:scale(.95);
 
 
 
+
+
+
+/* START */
+
+#startScreen{
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:100%;
+
+background:#ffd166;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+z-index:10;
+
+}
+
+
+
 #startScreen button{
-
-
-background:#2ecc71;
 
 font-size:35px;
 
+background:#2ecc71;
+
 padding:20px 70px;
 
+}
+
+
+
+
+
+
+
+/* POPUP */
+
+
+#popup{
+
+display:none;
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:100%;
+
+background:rgba(0,0,0,.6);
+
+justify-content:center;
+
+align-items:center;
+
+flex-direction:column;
+
+color:white;
+
+z-index:20;
+
+}
+
+
+
+#popup button{
+
+background:#2ecc71;
 
 }
 
@@ -155,19 +145,38 @@ padding:20px 70px;
 
 
 
-/* TOP */
+/* GAME */
 
 
-.top{
+#game{
 
+display:none;
+
+background:white;
+
+max-width:1200px;
+
+margin:auto;
+
+padding:20px;
+
+border-radius:25px;
+
+}
+
+
+
+
+
+
+
+.info{
 
 display:flex;
 
 justify-content:center;
 
 gap:30px;
-
-flex-wrap:wrap;
 
 font-size:25px;
 
@@ -176,7 +185,6 @@ background:#fff3cd;
 padding:15px;
 
 border-radius:20px;
-
 
 }
 
@@ -189,27 +197,21 @@ border-radius:20px;
 
 /* STOCK */
 
-
 #stock{
-
 
 background:#dff9fb;
 
-padding:20px;
+padding:15px;
 
-border-radius:25px;
+border-radius:20px;
+
+margin:15px auto;
 
 width:300px;
 
-margin:20px auto;
-
-font-size:25px;
-
-font-weight:bold;
-
+font-size:22px;
 
 }
-
 
 
 
@@ -219,9 +221,7 @@ font-weight:bold;
 
 /* MISSION */
 
-
 #mission{
-
 
 background:#e8f8f5;
 
@@ -229,7 +229,7 @@ padding:15px;
 
 border-radius:20px;
 
-font-size:22px;
+font-size:20px;
 
 }
 
@@ -240,12 +240,9 @@ font-size:22px;
 
 
 
-
-/* CUSTOMERS */
-
+/* CUSTOMER */
 
 #customers{
-
 
 display:flex;
 
@@ -255,74 +252,39 @@ flex-wrap:wrap;
 
 gap:15px;
 
-
 }
 
 
 
 .customer{
 
+width:170px;
 
 background:#ffeaa7;
 
-width:180px;
+border-radius:20px;
 
 padding:15px;
 
-border-radius:25px;
-
 cursor:pointer;
 
-animation:show .5s;
-
-
 }
-
-
-
-.customer:hover{
-
-transform:scale(1.05);
-
-}
-
 
 
 
 .customer.selected{
 
-
 border:5px solid #3498db;
 
-
 }
-
 
 
 
 .customerFace{
 
-
-font-size:70px;
-
-}
-
-
-
-.order{
-
-
-background:white;
-
-border-radius:15px;
-
-padding:10px;
-
-font-size:20px;
-
+font-size:60px;
 
 }
-
 
 
 .heart{
@@ -332,34 +294,15 @@ font-size:22px;
 }
 
 
+.order{
 
+background:white;
 
+border-radius:10px;
 
-
-
-@keyframes show{
-
-
-from{
-
-opacity:0;
-
-transform:translateY(-30px);
+padding:10px;
 
 }
-
-
-to{
-
-opacity:1;
-
-transform:translateY(0);
-
-}
-
-
-}
-
 
 
 
@@ -372,7 +315,6 @@ transform:translateY(0);
 
 .kitchen{
 
-
 display:flex;
 
 justify-content:center;
@@ -381,16 +323,14 @@ flex-wrap:wrap;
 
 gap:20px;
 
-margin-top:30px;
-
+margin-top:20px;
 
 }
 
 
 
 
-.station{
-
+.box{
 
 background:#eeeeee;
 
@@ -398,8 +338,7 @@ width:250px;
 
 padding:20px;
 
-border-radius:30px;
-
+border-radius:25px;
 
 }
 
@@ -409,20 +348,20 @@ border-radius:30px;
 
 
 
-
-/* TIMER CIRCLE */
-
-
-.circle{
+/* TIMER */
 
 
-width:140px;
+.timer{
 
-height:140px;
+width:130px;
+
+height:130px;
 
 border-radius:50%;
 
 background:#ccc;
+
+margin:20px auto;
 
 display:flex;
 
@@ -430,21 +369,17 @@ align-items:center;
 
 justify-content:center;
 
-margin:20px auto;
-
-
 }
 
 
 
-.circle div{
+.timer div{
 
+width:90px;
+
+height:90px;
 
 background:white;
-
-width:95px;
-
-height:95px;
 
 border-radius:50%;
 
@@ -457,7 +392,6 @@ justify-content:center;
 font-size:25px;
 
 font-weight:bold;
-
 
 }
 
@@ -476,14 +410,10 @@ font-weight:bold;
 #drinkStatus,
 #burgerStatus{
 
-
 font-size:20px;
-
-margin-top:10px;
 
 font-weight:bold;
 
-
 }
 
 
@@ -493,37 +423,25 @@ font-weight:bold;
 
 
 
-/* SERVE */
+#serveButton{
 
-
-.serve{
-
+margin-top:30px;
 
 background:#2ecc71;
 
-font-size:32px;
+font-size:35px;
 
 padding:20px 80px;
 
-
 }
-
-
-
-
-
 
 
 
 #message{
 
-
-font-size:30px;
-
 color:#e67e22;
 
 min-height:40px;
-
 
 }
 
@@ -533,82 +451,34 @@ min-height:40px;
 
 
 
-/* WARNING */
-
-
 .warning{
-
 
 background:red!important;
 
 color:white;
 
-
 }
 
 
 
 
 
-
-
-.ready{
-
-
-animation:bounce .5s infinite;
-
-
-}
-
-
-
-@keyframes bounce{
-
-
-50%{
-
-transform:scale(1.1);
-
-}
-
-
-}
-
-
-
-
-
-
-
-
-
-@media(max-width:900px){
+@media(max-width:700px){
 
 
 #game{
 
-width:100%;
-
 border-radius:0;
 
+width:100%;
+
 }
 
 
-.station{
 
+.box{
 
 width:90%;
-
-
-}
-
-
-
-.customer{
-
-
-width:150px;
-
 
 }
 
@@ -616,11 +486,7 @@ width:150px;
 
 button{
 
-
 font-size:24px;
-
-padding:18px;
-
 
 }
 
