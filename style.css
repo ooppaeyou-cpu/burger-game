@@ -5,6 +5,7 @@ box-sizing:border-box;
 }
 
 
+
 body{
 
 margin:0;
@@ -22,6 +23,8 @@ text-align:center;
 
 
 #game{
+
+display:none;
 
 width:95%;
 
@@ -44,22 +47,23 @@ box-shadow:0 0 20px #999;
 
 
 
+
 /* START */
 
 
 #startScreen,
-#levelPopup{
+#popup{
 
 
 position:fixed;
 
-top:0;
-
-left:0;
-
 width:100%;
 
 height:100%;
+
+top:0;
+
+left:0;
 
 background:#ffd166;
 
@@ -71,14 +75,14 @@ justify-content:center;
 
 align-items:center;
 
-z-index:99;
+z-index:100;
 
 
 }
 
 
 
-#levelPopup{
+#popup{
 
 display:none;
 
@@ -86,12 +90,14 @@ display:none;
 
 
 
-#startScreen h1,
-#levelPopup h1{
 
-font-size:60px;
+
+h1{
+
+font-size:45px;
 
 }
+
 
 
 
@@ -99,15 +105,15 @@ font-size:60px;
 button{
 
 
-font-size:22px;
-
-padding:15px 30px;
-
-margin:8px;
-
 border:none;
 
 border-radius:20px;
+
+padding:15px 25px;
+
+font-size:22px;
+
+margin:5px;
 
 background:#3498db;
 
@@ -129,16 +135,18 @@ transform:scale(.95);
 
 
 
-#startScreen button,
-#levelPopup button{
+
+#startScreen button{
 
 
 background:#2ecc71;
 
-font-size:30px;
+font-size:35px;
+
+padding:20px 70px;
+
 
 }
-
 
 
 
@@ -157,17 +165,17 @@ display:flex;
 
 justify-content:center;
 
-gap:25px;
+gap:30px;
 
 flex-wrap:wrap;
+
+font-size:25px;
 
 background:#fff3cd;
 
 padding:15px;
 
 border-radius:20px;
-
-font-size:25px;
 
 
 }
@@ -179,24 +187,23 @@ font-size:25px;
 
 
 
-
 /* STOCK */
 
 
-#stockBox{
+#stock{
 
-
-margin:20px auto;
-
-padding:20px;
-
-width:300px;
 
 background:#dff9fb;
 
+padding:20px;
+
 border-radius:25px;
 
-font-size:24px;
+width:300px;
+
+margin:20px auto;
+
+font-size:25px;
 
 font-weight:bold;
 
@@ -209,10 +216,11 @@ font-weight:bold;
 
 
 
+
 /* MISSION */
 
 
-#missionBox{
+#mission{
 
 
 background:#e8f8f5;
@@ -222,9 +230,6 @@ padding:15px;
 border-radius:20px;
 
 font-size:22px;
-
-margin:20px;
-
 
 }
 
@@ -246,9 +251,9 @@ display:flex;
 
 justify-content:center;
 
-gap:15px;
-
 flex-wrap:wrap;
+
+gap:15px;
 
 
 }
@@ -258,17 +263,18 @@ flex-wrap:wrap;
 .customer{
 
 
-width:180px;
-
 background:#ffeaa7;
+
+width:180px;
 
 padding:15px;
 
 border-radius:25px;
 
-animation:appear .5s;
-
 cursor:pointer;
+
+animation:show .5s;
+
 
 }
 
@@ -276,11 +282,10 @@ cursor:pointer;
 
 .customer:hover{
 
-
 transform:scale(1.05);
 
-
 }
+
 
 
 
@@ -294,18 +299,11 @@ border:5px solid #3498db;
 
 
 
+
 .customerFace{
 
 
 font-size:70px;
-
-}
-
-
-
-.heart{
-
-font-size:22px;
 
 }
 
@@ -322,6 +320,15 @@ padding:10px;
 
 font-size:20px;
 
+
+}
+
+
+
+.heart{
+
+font-size:22px;
+
 }
 
 
@@ -329,14 +336,15 @@ font-size:20px;
 
 
 
-@keyframes appear{
+
+@keyframes show{
 
 
 from{
 
 opacity:0;
 
-transform:translateY(-40px);
+transform:translateY(-30px);
 
 }
 
@@ -351,7 +359,6 @@ transform:translateY(0);
 
 
 }
-
 
 
 
@@ -382,7 +389,6 @@ margin-top:30px;
 
 
 
-
 .station{
 
 
@@ -401,25 +407,6 @@ border-radius:30px;
 
 
 
-.food{
-
-
-font-size:80px;
-
-height:100px;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-
-}
-
-
-
-
 
 
 
@@ -429,21 +416,21 @@ justify-content:center;
 .circle{
 
 
-width:130px;
+width:140px;
 
-height:130px;
+height:140px;
 
 border-radius:50%;
 
-background:#ddd;
+background:#ccc;
 
 display:flex;
 
-justify-content:center;
-
 align-items:center;
 
-margin:15px auto;
+justify-content:center;
+
+margin:20px auto;
 
 
 }
@@ -455,19 +442,21 @@ margin:15px auto;
 
 background:white;
 
-width:90px;
+width:95px;
 
-height:90px;
+height:95px;
 
 border-radius:50%;
 
 display:flex;
 
-justify-content:center;
-
 align-items:center;
 
-font-size:24px;
+justify-content:center;
+
+font-size:25px;
+
+font-weight:bold;
 
 
 }
@@ -479,7 +468,51 @@ font-size:24px;
 
 
 
-/* MESSAGE */
+/* STATUS */
+
+
+#meatStatus,
+#friesStatus,
+#drinkStatus,
+#burgerStatus{
+
+
+font-size:20px;
+
+margin-top:10px;
+
+font-weight:bold;
+
+
+}
+
+
+
+
+
+
+
+
+/* SERVE */
+
+
+.serve{
+
+
+background:#2ecc71;
+
+font-size:32px;
+
+padding:20px 80px;
+
+
+}
+
+
+
+
+
+
 
 
 #message{
@@ -498,14 +531,17 @@ min-height:40px;
 
 
 
-.serve{
 
 
-background:#2ecc71;
+/* WARNING */
 
-font-size:30px;
 
-padding:20px 70px;
+.warning{
+
+
+background:red!important;
+
+color:white;
 
 
 }
@@ -516,9 +552,34 @@ padding:20px 70px;
 
 
 
+.ready{
 
 
-/* MOBILE / IPAD */
+animation:bounce .5s infinite;
+
+
+}
+
+
+
+@keyframes bounce{
+
+
+50%{
+
+transform:scale(1.1);
+
+}
+
+
+}
+
+
+
+
+
+
+
 
 
 @media(max-width:900px){
@@ -531,7 +592,6 @@ width:100%;
 border-radius:0;
 
 }
-
 
 
 .station{
@@ -551,6 +611,7 @@ width:150px;
 
 
 }
+
 
 
 button{
