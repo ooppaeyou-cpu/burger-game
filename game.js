@@ -1,42 +1,31 @@
-// =================================
-// Burger Rush v9.2 Stable
-// =================================
+// ======================================
+// Burger Rush v9.2.1 Final Clean
+// ======================================
 
 
 let level = 1;
-
 let money = 0;
-
 let score = 0;
-
 
 let selectedCustomer = -1;
 
 
+let stock = {
 
-let stock={
-
-meat:0,
-
-fries:0,
-
-drink:0,
-
-burger:0
+    meat:0,
+    fries:0,
+    drink:0,
+    burger:0
 
 };
 
 
+let mission = {
 
-let mission={
-
-serve:0,
-
-burger:0,
-
-fries:0,
-
-drink:0
+    serve:0,
+    burger:0,
+    fries:0,
+    drink:0
 
 };
 
@@ -46,13 +35,21 @@ let customers=[];
 
 
 
-let timers={
+let cooking = {
 
-meat:null,
+    meat:false,
+    fries:false,
+    drink:false
 
-fries:null,
+};
 
-drink:null
+
+
+let cookTimer = {
+
+    meat:null,
+    fries:null,
+    drink:null
 
 };
 
@@ -60,7 +57,13 @@ drink:null
 
 
 
-let levels=[
+
+// ==========================
+// LEVEL
+// ==========================
+
+
+const levels=[
 
 
 {
@@ -169,8 +172,12 @@ drink:5
 
 
 
+// ==========================
+// MENU
+// ==========================
 
-let menu=[
+
+const menu=[
 
 
 {
@@ -212,18 +219,27 @@ drink:true
 
 
 
-// =====================
+
+// ==========================
 // START
-// =====================
+// ==========================
 
 
 function startGame(){
 
 
-document.getElementById("startScreen").style.display="none";
+let start=document.getElementById("startScreen");
+
+let game=document.getElementById("game");
 
 
-document.getElementById("game").style.display="block";
+if(start)
+start.style.display="none";
+
+
+if(game)
+game.style.display="block";
+
 
 
 loadLevel();
@@ -238,9 +254,9 @@ loadLevel();
 
 
 
-// =====================
-// LEVEL
-// =====================
+// ==========================
+// LOAD LEVEL
+// ==========================
 
 
 function loadLevel(){
@@ -255,11 +271,8 @@ selectedCustomer=-1;
 mission={
 
 serve:0,
-
 burger:0,
-
 fries:0,
-
 drink:0
 
 };
@@ -269,11 +282,8 @@ drink:0
 stock={
 
 meat:0,
-
 fries:0,
-
 drink:0,
-
 burger:0
 
 };
@@ -295,11 +305,18 @@ updateUI();
 
 
 
+
+// ==========================
+// CREATE CUSTOMER
+// ==========================
+
+
 function createCustomers(){
 
 
 
-let amount=levels[level-1].customers;
+let amount =
+levels[level-1].customers;
 
 
 
@@ -307,7 +324,7 @@ for(let i=0;i<amount;i++){
 
 
 
-let food=
+let food =
 menu[Math.floor(Math.random()*menu.length)];
 
 
@@ -321,7 +338,6 @@ heart:10,
 order:food,
 
 done:false
-
 
 });
 
@@ -343,15 +359,19 @@ renderCustomers();
 
 
 
-// =====================
-// CUSTOMER
-// =====================
+// ==========================
+// SHOW CUSTOMER
+// ==========================
 
 
 function renderCustomers(){
 
 
 let box=document.getElementById("customers");
+
+
+if(!box)return;
+
 
 
 box.innerHTML="";
@@ -378,18 +398,15 @@ div.classList.add("selected");
 
 
 
-div.innerHTML=
 
-`
+div.innerHTML=`
 
 <div class="customerFace">
 👤
 </div>
 
 <div class="heart">
-
 ${"❤️".repeat(c.heart)}
-
 </div>
 
 
@@ -403,8 +420,8 @@ ${c.order.name}
 
 </div>
 
-
 `;
+
 
 
 
@@ -414,9 +431,15 @@ div.onclick=function(){
 selectedCustomer=c.id;
 
 
-document.getElementById("selected")
-.innerHTML=
-"เลือก ลูกค้า "+(c.id+1);
+let select=
+document.getElementById("selected");
+
+
+if(select)
+
+select.innerHTML=
+"เลือกลูกค้า "+(c.id+1);
+
 
 
 renderCustomers();
@@ -429,37 +452,18 @@ renderCustomers();
 box.appendChild(div);
 
 
-
 });
-
-
-
-}
-
-
-
-
-
-
-
-
-// =====================
-// COOK
-// =====================
+// ==========================
+// COOK SYSTEM
+// ==========================
 
 
 function cookMeat(){
 
-cook(
+startCook(
 "meat",
 "meatTimer",
-"meatStatus",
-()=>{
-
-stock.meat++;
-
-}
-
+"meatStatus"
 );
 
 }
@@ -468,18 +472,11 @@ stock.meat++;
 
 function cookFries(){
 
-cook(
+startCook(
 "fries",
 "friesTimer",
-"friesStatus",
-()=>{
-
-stock.fries++;
-
-}
-
+"friesStatus"
 );
-
 
 }
 
@@ -487,20 +484,12 @@ stock.fries++;
 
 function makeDrink(){
 
-
-cook(
+startCook(
 "drink",
 "drinkTimer",
-"drinkStatus",
-()=>{
-
-stock.drink++;
-
-}
-
+"drinkStatus"
 );
 
-
 }
 
 
@@ -509,11 +498,21 @@ stock.drink++;
 
 
 
-function cook(type,id,status,done){
+function startCook(type,timerID,statusID){
 
 
 
-if(timers[type])return;
+if(cooking[type]){
+
+message("กำลังทำอยู่");
+
+return;
+
+}
+
+
+
+cooking[type]=true;
 
 
 
@@ -521,74 +520,116 @@ let percent=0;
 
 
 
-let box=document.getElementById(id);
-
-
-let time=15;
-
-
-
-timers[type]=setInterval(()=>{
-
-
-percent+=10;
-
-
-box.innerHTML=percent+"%";
+let timerBox=
+document.getElementById(timerID);
 
 
 
-if(percent>=80){
+let status=
+document.getElementById(statusID);
 
-box.parentElement.classList.add("warning");
+
+
+if(status)
+
+status.innerHTML="กำลังทำ...";
+
+
+
+cookTimer[type]=setInterval(()=>{
+
+
+
+percent+=5;
+
+
+
+if(timerBox)
+
+timerBox.innerHTML=
+percent+"%";
+
+
+
+
+if(percent>=80 && percent<100){
+
+
+if(timerBox)
+
+timerBox.parentElement.classList.add("warning");
 
 
 }
 
+
+
+
+// พร้อม
 
 
 if(percent>=100){
 
 
-clearInterval(timers[type]);
 
+clearInterval(cookTimer[type]);
 
-timers[type]=null;
-
-
-box.innerHTML="พร้อม";
-
-
-box.parentElement.classList.remove("warning");
+cookTimer[type]=null;
 
 
 
-done();
+cooking[type]=false;
+
+
+
+if(timerBox){
+
+timerBox.innerHTML="พร้อม";
+
+timerBox.parentElement.classList.remove("warning");
+
+}
+
+
+
+if(status)
+
+status.innerHTML="พร้อมใช้งาน";
+
+
+
+stock[type]++;
+
 
 
 updateUI();
 
 
-}
 
-
-
-},time*10);
-
+return;
 
 
 }
 
 
 
+},200);
+
+
+
+}
 
 
 
 
 
-// =====================
-// BURGER
-// =====================
+
+
+
+
+// ==========================
+// MAKE BURGER
+// ==========================
 
 
 function makeBurger(){
@@ -598,10 +639,11 @@ function makeBurger(){
 if(stock.meat<=0){
 
 
-message("ต้องมีเนื้อก่อน");
+message("❌ ต้องมีเนื้อก่อน");
 
 
 return;
+
 
 }
 
@@ -616,7 +658,17 @@ mission.burger++;
 
 
 
-message("🍔 ทำเบอร์เกอร์แล้ว");
+let box=document.getElementById("burgerStatus");
+
+
+if(box)
+
+box.innerHTML=
+"🍔 เบอร์เกอร์พร้อมเสิร์ฟ";
+
+
+
+message("ประกอบเบอร์เกอร์แล้ว");
 
 
 updateUI();
@@ -631,34 +683,55 @@ updateUI();
 
 
 
-// =====================
+
+// ==========================
 // THROW
-// =====================
+// ==========================
 
 
 function throwMeat(){
 
+
 stock.meat=0;
+
+
+message("ทิ้งเนื้อแล้ว");
+
 
 updateUI();
 
+
 }
+
 
 
 function throwFries(){
 
+
 stock.fries=0;
+
+
+message("ทิ้งเฟรนแล้ว");
+
 
 updateUI();
 
+
 }
+
 
 
 function throwDrink(){
 
+
 stock.drink=0;
 
+
+message("ทิ้งน้ำแล้ว");
+
+
 updateUI();
+
 
 }
 
@@ -669,36 +742,51 @@ updateUI();
 
 
 
-// =====================
+
+// ==========================
 // SERVE
-// =====================
+// ==========================
 
 
 function serveCustomer(){
 
 
+
 if(selectedCustomer<0){
+
 
 message("เลือกลูกค้าก่อน");
 
+
 return;
+
 
 }
 
 
 
-let c=customers[selectedCustomer];
-
-
-if(c.done)return;
-
-
-
-let o=c.order;
+let customer =
+customers[selectedCustomer];
 
 
 
-if(o.meat && stock.burger<=0){
+if(!customer || customer.done)
+
+return;
+
+
+
+let order =
+customer.order;
+
+
+
+
+
+// ตรวจของ
+
+
+if(order.meat && stock.burger<=0){
 
 message("ไม่มีเบอร์เกอร์");
 
@@ -707,7 +795,8 @@ return;
 }
 
 
-if(o.fries && stock.fries<=0){
+
+if(order.fries && stock.fries<=0){
 
 message("ไม่มีเฟรน");
 
@@ -717,7 +806,7 @@ return;
 
 
 
-if(o.drink && stock.drink<=0){
+if(order.drink && stock.drink<=0){
 
 message("ไม่มีน้ำ");
 
@@ -729,13 +818,19 @@ return;
 
 
 
-if(o.meat)
+
+// หักของ
+
+
+if(order.meat){
 
 stock.burger--;
 
+}
 
 
-if(o.fries){
+
+if(order.fries){
 
 stock.fries--;
 
@@ -745,7 +840,7 @@ mission.fries++;
 
 
 
-if(o.drink){
+if(order.drink){
 
 stock.drink--;
 
@@ -757,11 +852,11 @@ mission.drink++;
 
 
 
-c.done=true;
-
+customer.done=true;
 
 
 mission.serve++;
+
 
 
 money+=50;
@@ -775,6 +870,7 @@ selectedCustomer=-1;
 
 
 message("✅ เสิร์ฟสำเร็จ");
+
 
 
 updateUI();
@@ -795,23 +891,24 @@ checkLevel();
 
 
 
-// =====================
-// LEVEL CHECK
-// =====================
+// ==========================
+// CHECK LEVEL
+// ==========================
 
 
 function checkLevel(){
 
 
-
-let goal=levels[level-1].goal;
-
-
-
-for(let x in goal){
+let goal =
+levels[level-1].goal;
 
 
-if((mission[x]||0)<goal[x])
+
+for(let key in goal){
+
+
+if((mission[key]||0)<goal[key]){
+
 
 return;
 
@@ -819,8 +916,11 @@ return;
 }
 
 
+}
 
-showPopup();
+
+
+openPopup();
 
 
 }
@@ -832,28 +932,46 @@ showPopup();
 
 
 
-function showPopup(){
-
-
-document.getElementById("popupTitle")
-.innerHTML=
-"🎉 ผ่านด่าน "+level;
+function openPopup(){
 
 
 
-document.getElementById("popupText")
-.innerHTML=
-"เงิน +500";
+let title=
+document.getElementById("popupTitle");
+
+let text=
+document.getElementById("popupText");
+
+let popup=
+document.getElementById("popup");
+
 
 
 money+=500;
 
 
-document.getElementById("popup")
-.style.display="flex";
+
+if(title)
+
+title.innerHTML=
+"🎉 ผ่านด่าน "+level;
+
+
+
+if(text)
+
+text.innerHTML=
+"💰 โบนัส +500";
+
+
+if(popup)
+
+popup.style.display="flex";
 
 
 }
+
+
 
 
 
@@ -864,17 +982,35 @@ function closePopup(){
 
 
 
-document.getElementById("popup")
-.style.display="none";
+let popup=
+document.getElementById("popup");
+
+
+if(popup)
+
+popup.style.display="none";
+
 
 
 level++;
 
 
+
 if(level>10){
 
 
-alert("🏆 จบเกม");
+if(popup){
+
+popup.style.display="flex";
+
+document.getElementById("popupTitle")
+.innerHTML="🏆 จบเกม";
+
+document.getElementById("popupText")
+.innerHTML=
+"คะแนน "+score;
+
+}
 
 
 return;
@@ -896,9 +1032,10 @@ loadLevel();
 
 
 
-// =====================
-// HEART
-// =====================
+
+// ==========================
+// HEART SYSTEM
+// ==========================
 
 
 setInterval(()=>{
@@ -920,13 +1057,18 @@ if(c.heart<=0){
 c.done=true;
 
 
+message("ลูกค้าออกจากร้าน");
+
+
 }
 
 
 });
 
 
+
 renderCustomers();
+
 
 
 },8000);
@@ -937,63 +1079,96 @@ renderCustomers();
 
 
 
-// =====================
-// UI
-// =====================
+
+
+// ==========================
+// UPDATE UI
+// ==========================
 
 
 function updateUI(){
 
 
 
-document.getElementById("level").innerHTML=level;
+let ids={
 
 
-document.getElementById("money").innerHTML=money;
+level:level,
+
+money:money,
+
+score:score,
+
+meatStock:stock.meat,
+
+friesStock:stock.fries,
+
+drinkStock:stock.drink,
+
+burgerStock:stock.burger
 
 
-document.getElementById("score").innerHTML=score;
-
-
-
-
-document.getElementById("meatStock")
-.innerHTML=stock.meat;
-
-
-document.getElementById("friesStock")
-.innerHTML=stock.fries;
-
-
-document.getElementById("drinkStock")
-.innerHTML=stock.drink;
-
-
-document.getElementById("burgerStock")
-.innerHTML=stock.burger;
+};
 
 
 
-let goal=levels[level-1].goal;
+for(let id in ids){
+
+
+let el=document.getElementById(id);
+
+
+if(el)
+
+el.innerHTML=ids[id];
+
+
+}
+
+
+
+
+
+let missionBox=
+document.getElementById("missionText");
+
+
+
+if(missionBox){
+
 
 
 let text="";
 
 
-for(let x in goal){
+let goal=
+levels[level-1].goal;
 
 
-text+=x+" : "+
-(mission[x]||0)+
+
+for(let key in goal){
+
+
+text+=
+key+
+" : "+
+(mission[key]||0)+
 "/"+
-goal[x]
-+"<br>";
+goal[key]
++
+"<br>";
+
+
 
 }
 
 
-document.getElementById("missionText")
-.innerHTML=text;
+
+missionBox.innerHTML=text;
+
+
+
+}
 
 
 
@@ -1008,22 +1183,47 @@ renderCustomers();
 
 
 
-function message(t){
 
 
-document.getElementById("message")
-.innerHTML=t;
+// ==========================
+// MESSAGE
+// ==========================
+
+
+function message(text){
+
+
+let box=
+document.getElementById("message");
+
+
+if(!box)return;
+
+
+
+box.innerHTML=text;
 
 
 
 setTimeout(()=>{
 
 
-document.getElementById("message")
-.innerHTML="";
+box.innerHTML="";
 
 
 },1500);
+
+
+
+}
+
+
+
+
+
+
+// TEST LOAD
+console.log("Burger Rush v9.2.1 Loaded");
 
 
 }
