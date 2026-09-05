@@ -1,82 +1,176 @@
-let money = 0;
-let score = 0;
 let level = 1;
 
-let gameStarted = false;
+let money = 0;
+let score = 0;
+
+let served = 0;
 
 
-// จำนวนลูกค้าแต่ละด่าน
+let selectedCustomer = null;
 
-let levelCustomers = [
-5,8,12,15,20,
-25,30,35,40,45,
-50,55,60,65,70,
-75,80,90,100,120
+
+// ==========================
+// ด่าน
+// ==========================
+
+let levels = [
+
+{
+customers:2,
+mission:{
+serve:3,
+burger:2,
+fries:1
+}
+},
+
+
+{
+customers:2,
+mission:{
+serve:4,
+burger:3,
+fries:2,
+drink:1
+}
+},
+
+
+{
+customers:3,
+mission:{
+serve:5,
+burger:4,
+drink:3
+}
+},
+
+
+{
+customers:3,
+mission:{
+serve:6,
+fries:5,
+perfect:2
+}
+},
+
+
+{
+customers:3,
+mission:{
+serve:8,
+burger:5,
+drink:5
+}
+},
+
+
+{
+customers:4,
+mission:{
+serve:9,
+fries:8,
+perfect:5
+}
+},
+
+
+{
+customers:4,
+mission:{
+serve:10,
+burger:8,
+drink:8
+}
+},
+
+
+{
+customers:5,
+mission:{
+serve:12,
+food:30,
+perfect:8
+}
+},
+
+
+{
+customers:5,
+mission:{
+serve:13,
+burger:12,
+fries:12
+}
+},
+
+
+{
+customers:5,
+mission:{
+serve:15,
+burger:15,
+fries:15,
+drink:10,
+perfect:10
+}
+}
+
 ];
 
 
-let servedCustomer = 0;
-
-
-// อาหาร
-
-let meat = false;
-let fries = false;
-let drink = false;
-let burger = false;
-
-
-// สถานะ
-
-let meatCooking = false;
-let friesCooking = false;
-let drinkBlending = false;
-let assembling = false;
-
-
-// Timer
-
-let meatTimer;
-let friesTimer;
-let drinkTimer;
-
-let meatBurnTimer;
-let friesBurnTimer;
-
-let customerTimer;
 
 
 
 
-let order={};
+
+// ==========================
+// ลูกค้า
+// ==========================
+
+
+let customers=[];
 
 
 
 let menu=[
 
 {
-text:"🍔 เบอร์เกอร์ + 🍟 เฟรน",
+name:"🍔",
+text:"เบอร์เกอร์",
+meat:true,
+fries:false,
+drink:false
+},
+
+{
+name:"🍟",
+text:"เฟรน",
+meat:false,
+fries:true,
+drink:false
+},
+
+{
+name:"🥤",
+text:"น้ำ",
+meat:false,
+fries:false,
+drink:true
+},
+
+{
+name:"🍔🍟",
+text:"ชุดเบอร์เกอร์",
 meat:true,
 fries:true,
 drink:false
 },
 
 {
-text:"🍔 เบอร์เกอร์ + 🥤 น้ำ",
-meat:true,
-fries:false,
-drink:true
-},
-
-{
-text:"🍟 เฟรน + 🥤 น้ำ",
-meat:false,
-fries:true,
-drink:true
-},
-
-{
-text:"🍔🍟🥤 ชุดใหญ่",
+name:"🍔🍟🥤",
+text:"ชุดใหญ่",
 meat:true,
 fries:true,
 drink:true
@@ -90,25 +184,22 @@ drink:true
 
 
 
-// ======================
-// เสียง
-// ======================
+// ==========================
+// อาหาร
+// ==========================
 
 
-function playSound(id){
+let meat=false;
+let fries=false;
+let drink=false;
+let burger=false;
 
-let sound=document.getElementById(id);
 
-if(sound){
+let meatTimer;
+let friesTimer;
+let drinkTimer;
 
-sound.currentTime=0;
-
-sound.play().catch(()=>{});
-
-}
-
-}
-
+let assembling=false;
 
 
 
@@ -116,38 +207,41 @@ sound.play().catch(()=>{});
 
 
 
-// ======================
-// เริ่มเกม
-// ======================
+// ภารกิจ
+
+
+let mission={
+
+serve:0,
+burger:0,
+fries:0,
+drink:0,
+perfect:0,
+food:0
+
+};
+
+
+
+
+
+
 
 
 function startGame(){
-
-
-if(gameStarted)return;
-
-
-gameStarted=true;
 
 
 document.getElementById("startScreen")
 .style.display="none";
 
 
-let bgm=document.getElementById("bgm");
-
-
-bgm.volume=0.3;
-
-
-bgm.play().catch(()=>{});
+document.getElementById("bgm")
+.play()
+.catch(()=>{});
 
 
 
-newCustomer();
-
-
-startCustomerTimer();
+loadLevel();
 
 
 }
@@ -159,40 +253,178 @@ startCustomerTimer();
 
 
 
-// ======================
-// ลูกค้า
-// ======================
+// ==========================
+// โหลดด่าน
+// ==========================
 
 
-function newCustomer(){
+function loadLevel(){
 
 
-order =
+customers=[];
+
+
+selectedCustomer=null;
+
+
+served=0;
+
+
+createCustomers();
+
+
+updateMission();
+
+
+renderCustomers();
+
+
+document.getElementById("level")
+.innerHTML=level;
+
+
+}
+
+
+
+
+
+
+
+
+
+// ==========================
+// สร้างลูกค้า
+// ==========================
+
+
+function createCustomers(){
+
+
+let amount=
+levels[level-1].customers;
+
+
+
+for(let i=0;i<amount;i++){
+
+
+let order=
 menu[Math.floor(Math.random()*menu.length)];
 
 
 
-document.getElementById("order")
+customers.push({
+
+id:i,
+
+heart:5,
+
+order:order,
+
+done:false
+
+});
+
+
+}
+
+
+startHeartTimer();
+
+
+}
+
+
+
+
+
+
+
+
+
+function renderCustomers(){
+
+
+let box=
+document.getElementById("customers");
+
+box.innerHTML="";
+
+
+
+customers.forEach(c=>{
+
+
+if(c.done)return;
+
+
+
+let div=document.createElement("div");
+
+
+div.className="customer";
+
+
+
+if(selectedCustomer==c.id)
+
+div.classList.add("selected");
+
+
+
+let hearts="";
+
+for(let i=0;i<c.heart;i++)
+hearts+="❤️";
+
+for(let i=c.heart;i<5;i++)
+hearts+="🤍";
+
+
+
+div.innerHTML=
+
+`
+<div class="customerFace">
+👤
+</div>
+
+<div class="heart">
+${hearts}
+</div>
+
+<div class="order">
+
+${c.order.name}
+<br>
+${c.order.text}
+
+</div>
+
+`;
+
+
+
+div.onclick=()=>{
+
+selectedCustomer=c.id;
+
+renderCustomers();
+
+
+document.getElementById("selectedCustomer")
 .innerHTML=
-"🧾 "+order.text;
+"เลือกลูกค้า "+(c.id+1);
+
+};
+
+
+box.appendChild(div);
 
 
 
-}
-
-
-
-function startCustomerTimer(){
-
-
-customerTimer=setInterval(()=>{
-
-
-if(!gameStarted)return;
-
-
-
-},1000);
+});
 
 
 }
@@ -204,22 +436,113 @@ if(!gameStarted)return;
 
 
 
-// ======================
-// เนื้อ
-// ======================
+
+// ==========================
+// หัวใจ
+// ==========================
+
+
+function startHeartTimer(){
+
+
+setInterval(()=>{
+
+
+customers.forEach(c=>{
+
+
+if(c.done)return;
+
+
+c.heart--;
+
+
+
+if(c.heart<=0){
+
+
+c.done=true;
+
+
+document.getElementById("message")
+.innerHTML=
+"😡 ลูกค้าออกจากร้าน";
+
+
+}
+
+
+});
+
+
+renderCustomers();
+
+
+
+},5000);
+
+
+}
+
+
+
+
+
+
+
+
+// ==========================
+// ภารกิจ
+// ==========================
+
+
+function updateMission(){
+
+
+let text="";
+
+
+let m=levels[level-1].mission;
+
+
+for(let x in m){
+
+
+text+=
+x+
+": "+
+(mission[x]||0)+
+"/"+
+m[x]+
+"<br>";
+
+
+}
+
+
+document.getElementById("missionText")
+.innerHTML=text;
+
+
+}
+
+
+
+
+
+
+
+
+
+// ==========================
+// ทำอาหาร
+// ==========================
 
 
 function cookMeat(){
 
 
-if(!gameStarted)return;
-
-
-if(meatCooking || meat)return;
-
-
-
-meatCooking=true;
+if(meat)return;
 
 
 let p=0;
@@ -239,93 +562,26 @@ p+=5;
 circle.innerHTML=p+"%";
 
 
-
-circle.parentElement.style.background=
-
-`conic-gradient(
-green ${p*3.6}deg,
-#ddd 0deg
-)`;
-
-
-
 if(p>=100){
 
 
 clearInterval(meatTimer);
 
 
-meatCooking=false;
-
 meat=true;
-
-
-playSound("cookSound");
-
 
 
 circle.innerHTML="🍖";
 
 
-startBurnMeat();
+document.getElementById("meatStatus")
+.innerHTML="พร้อม";
 
 
 }
 
 
-
-},400);
-
-
-}
-
-
-
-
-
-
-
-function startBurnMeat(){
-
-
-let time=10;
-
-
-meatBurnTimer=setInterval(()=>{
-
-
-time--;
-
-
-document.getElementById("meatWarning")
-.innerHTML=
-"🔥 ไหม้ใน "+time+" วิ";
-
-
-
-if(time<=0 && meat){
-
-
-clearInterval(meatBurnTimer);
-
-
-meat=false;
-
-
-document.getElementById("meatProgress")
-.innerHTML="🔥";
-
-
-document.getElementById("meatWarning")
-.innerHTML=
-"💀 ไหม้";
-
-
-}
-
-
-},1000);
-
+},300);
 
 
 }
@@ -334,26 +590,12 @@ document.getElementById("meatWarning")
 
 
 
-
-
-
-
-// ======================
-// เฟรน
-// ======================
 
 
 function cookFries(){
 
 
-if(!gameStarted)return;
-
-
-if(friesCooking || fries)return;
-
-
-
-friesCooking=true;
+if(fries)return;
 
 
 let p=0;
@@ -361,7 +603,6 @@ let p=0;
 
 let circle=
 document.getElementById("friesProgress");
-
 
 
 friesTimer=setInterval(()=>{
@@ -373,15 +614,11 @@ p+=5;
 circle.innerHTML=p+"%";
 
 
-// แก้หลอดไม่ขึ้น
-
 circle.parentElement.style.background=
 
 `conic-gradient(
 orange ${p*3.6}deg,
-#ddd 0deg
-)`;
-
+#ddd 0deg)`;
 
 
 if(p>=100){
@@ -390,23 +627,76 @@ if(p>=100){
 clearInterval(friesTimer);
 
 
-
-friesCooking=false;
-
 fries=true;
-
-
-playSound("cookSound");
 
 
 circle.innerHTML="🍟";
 
 
-startBurnFries();
+document.getElementById("friesStatus")
+.innerHTML="พร้อม";
 
 
 }
 
+
+},300);
+
+
+}
+
+
+
+
+
+
+
+function blendDrink(){
+
+
+if(drink)return;
+
+
+let p=0;
+
+
+let circle=
+document.getElementById("drinkProgress");
+
+
+drinkTimer=setInterval(()=>{
+
+
+p+=10;
+
+
+circle.innerHTML=p+"%";
+
+
+circle.parentElement.style.background=
+
+`conic-gradient(
+blue ${p*3.6}deg,
+#ddd 0deg)`;
+
+
+if(p>=100){
+
+
+clearInterval(drinkTimer);
+
+
+drink=true;
+
+
+circle.innerHTML="🥤";
+
+
+document.getElementById("drinkStatus")
+.innerHTML="พร้อม";
+
+
+}
 
 
 },400);
@@ -419,250 +709,22 @@ startBurnFries();
 
 
 
-function startBurnFries(){
 
-
-let time=10;
-
-
-friesBurnTimer=setInterval(()=>{
-
-
-time--;
-
-
-document.getElementById("friesWarning")
-.innerHTML=
-"🔥 ไหม้ใน "+time+" วิ";
-
-
-
-if(time<=0 && fries){
-
-
-clearInterval(friesBurnTimer);
-
-
-fries=false;
-
-
-document.getElementById("friesProgress")
-.innerHTML="🔥";
-
-
-document.getElementById("friesWarning")
-.innerHTML=
-"💀 ไหม้";
-
-
-}
-
-
-
-},1000);
-
-
-}
-
-
-
-
-
-
-
-
-
-// ======================
-// น้ำปั่น
-// ======================
-
-
-function blendDrink(){
-
-
-if(!gameStarted)return;
-
-
-if(drinkBlending || drink)return;
-
-
-
-drinkBlending=true;
-
-
-let p=0;
-
-
-let circle=
-document.getElementById("drinkProgress");
-
-
-let icon=
-document.getElementById("drink");
-
-
-
-icon.classList.add("blending");
-
-
-
-drinkTimer=setInterval(()=>{
-
-
-p+=10;
-
-
-circle.innerHTML=p+"%";
-
-
-// แก้หลอดน้ำ
-
-circle.parentElement.style.background=
-
-`conic-gradient(
-blue ${p*3.6}deg,
-#ddd 0deg
-)`;
-
-
-
-if(p>=100){
-
-
-clearInterval(drinkTimer);
-
-
-
-drinkBlending=false;
-
-drink=true;
-
-
-
-icon.classList.remove("blending");
-
-
-icon.innerHTML="🥤";
-
-
-playSound("blendSound");
-
-
-document.getElementById("drinkWarning")
-.innerHTML=
-"✅ พร้อม";
-
-
-
-}
-
-
-},500);
-
-
-}
-
-
-
-
-
-
-
-
-// ======================
-// ทิ้ง
-// ======================
-
-
-function throwMeat(){
-
-
-clearInterval(meatTimer);
-
-clearInterval(meatBurnTimer);
-
-
-meat=false;
-
-meatCooking=false;
-
-
-resetCircle("meatProgress");
-
-
-}
-
-
-function throwFries(){
-
-
-clearInterval(friesTimer);
-
-clearInterval(friesBurnTimer);
-
-
-fries=false;
-
-friesCooking=false;
-
-
-resetCircle("friesProgress");
-
-
-}
-
-
-
-function throwDrink(){
-
-
-clearInterval(drinkTimer);
-
-
-drink=false;
-
-drinkBlending=false;
-
-
-resetCircle("drinkProgress");
-
-
-}
-
-
-
-
-
-
-
-
-
-// ======================
+// ==========================
 // ประกอบ
-// ======================
+// ==========================
 
 
 function makeBurger(){
 
 
-if(!meat){
-
-alert("ต้องมีเนื้อก่อน");
-
-return;
-
-}
-
-
-
-if(assembling || burger)return;
+if(!meat || assembling)return;
 
 
 assembling=true;
 
 
-let progress=0;
-
+let p=0;
 
 
 let bar=
@@ -674,47 +736,20 @@ document.getElementById("assembleText");
 
 
 
-let steps=[
-
-"🍞 ขนมปัง",
-
-"🥬 ผัก",
-
-"🍖 ใส่เนื้อ",
-
-"🧀 ใส่ชีส",
-
-"🥫 ใส่ซอส",
-
-"🍔 เสร็จ"
-
-];
-
-
-
-let step=0;
-
-
-
 let timer=setInterval(()=>{
 
 
-progress+=20;
+p+=20;
 
 
-bar.style.width=
-progress+"%";
+bar.style.width=p+"%";
 
 
 text.innerHTML=
-steps[step];
+"กำลังประกอบ "+p+"%";
 
 
-step++;
-
-
-
-if(progress>=100){
+if(p>=100){
 
 
 clearInterval(timer);
@@ -722,21 +757,18 @@ clearInterval(timer);
 
 burger=true;
 
+
 assembling=false;
 
 
 text.innerHTML=
-"✅ เบอร์เกอร์พร้อมเสิร์ฟ";
-
-
-document.getElementById("burger")
-.innerHTML="🍔";
+"🍔 เบอร์เกอร์พร้อม";
 
 
 }
 
 
-},500);
+},400);
 
 
 }
@@ -748,39 +780,61 @@ document.getElementById("burger")
 
 
 
-// ======================
+
+// ==========================
 // เสิร์ฟ
-// ======================
+// ==========================
 
 
-function serve(){
+function serveCustomer(){
 
 
-if(!gameStarted)return;
+if(selectedCustomer===null){
 
+alert("เลือกลูกค้าก่อน");
 
-let correct=true;
+return;
 
-
-
-if(order.meat && !burger)
-correct=false;
-
-
-if(order.fries && !fries)
-correct=false;
-
-
-if(order.drink && !drink)
-correct=false;
+}
 
 
 
+let c=
+customers[selectedCustomer];
 
-if(correct){
+
+let ok=true;
 
 
-playSound("successSound");
+if(c.order.meat&&!burger)
+ok=false;
+
+
+if(c.order.fries&&!fries)
+ok=false;
+
+
+if(c.order.drink&&!drink)
+ok=false;
+
+
+
+if(!ok){
+
+
+document.getElementById("message")
+.innerHTML=
+"❌ ของยังไม่ครบ";
+
+
+return;
+
+}
+
+
+
+c.done=true;
+
 
 
 money+=50;
@@ -788,55 +842,22 @@ money+=50;
 score+=100;
 
 
-servedCustomer++;
+served++;
+
+
+mission.serve++;
+
+
+if(burger)mission.burger++;
+
+if(fries)mission.fries++;
+
+if(drink)mission.drink++;
+
 
 
 document.getElementById("served")
-.innerHTML=servedCustomer;
-
-
-
-document.getElementById("message")
-.innerHTML=
-"🎉 ส่งสำเร็จ";
-
-
-
-resetFood();
-
-
-
-if(servedCustomer>=levelCustomers[level-1]){
-
-
-levelComplete();
-
-
-}
-else{
-
-
-newCustomer();
-
-
-}
-
-
-}
-
-else{
-
-
-playSound("failSound");
-
-
-document.getElementById("message")
-.innerHTML=
-"❌ อาหารไม่ครบ";
-
-
-}
-
+.innerHTML=served;
 
 
 document.getElementById("money")
@@ -848,6 +869,20 @@ document.getElementById("score")
 
 
 
+resetFood();
+
+
+
+renderCustomers();
+
+
+updateMission();
+
+
+
+checkLevel();
+
+
 }
 
 
@@ -857,34 +892,52 @@ document.getElementById("score")
 
 
 
-
-// ======================
-// ด่าน
-// ======================
+function checkLevel(){
 
 
-function levelComplete(){
+let target=
+levels[level-1].mission;
 
 
-gameStarted=false;
+for(let x in target){
 
 
-playSound("levelSound");
+if((mission[x]||0)<target[x])
 
+return;
+
+
+}
+
+
+showComplete();
+
+
+}
+
+
+
+
+
+function showComplete(){
 
 
 document.getElementById("popupText")
 .innerHTML=
 
-"👥 ลูกค้า "
-+levelCustomers[level-1]
-+" คน<br><br>"+
-"💰 เงิน "
-+money+
-"<br>"+
-"⭐ คะแนน "
-+score;
+`
+ด่าน ${level} ผ่านแล้ว 🎉
+<br>
+เงิน +500
+<br>
+คะแนน +1000
+`;
 
+
+
+money+=500;
+
+score+=1000;
 
 
 document.getElementById("levelPopup")
@@ -896,42 +949,30 @@ document.getElementById("levelPopup")
 
 
 
+
+
+
 function nextLevel(){
 
 
 level++;
 
 
-servedCustomer=0;
+document.getElementById("levelPopup")
+.style.display="none";
 
 
-if(level>20){
+if(level>10){
 
-alert("🏆 จบเกม!");
+
+alert("🏆 คุณเป็น Master Burger Chef!");
 
 return;
 
 }
 
 
-
-document.getElementById("level")
-.innerHTML=level;
-
-
-
-document.getElementById("served")
-.innerHTML=0;
-
-
-document.getElementById("levelPopup")
-.style.display="none";
-
-
-gameStarted=true;
-
-
-newCustomer();
+loadLevel();
 
 
 }
@@ -943,24 +984,8 @@ newCustomer();
 
 
 
-// ======================
-// Reset
-// ======================
-
 
 function resetFood(){
-
-
-clearInterval(meatBurnTimer);
-
-clearInterval(friesBurnTimer);
-
-clearInterval(meatTimer);
-
-clearInterval(friesTimer);
-
-clearInterval(drinkTimer);
-
 
 
 meat=false;
@@ -972,54 +997,19 @@ drink=false;
 burger=false;
 
 
-meatCooking=false;
+document.getElementById("meatProgress").innerHTML="0%";
 
-friesCooking=false;
+document.getElementById("friesProgress").innerHTML="0%";
 
-drinkBlending=false;
-
-
-
-document.getElementById("meat")
-.innerHTML="🥩";
-
-
-document.getElementById("fries")
-.innerHTML="🥔";
-
-
-document.getElementById("drink")
-.innerHTML="🍓";
+document.getElementById("drinkProgress").innerHTML="0%";
 
 
 document.getElementById("burger")
 .innerHTML="🍞";
 
 
-
-resetCircle("meatProgress");
-
-resetCircle("friesProgress");
-
-resetCircle("drinkProgress");
-
-
-}
-
-
-
-
-function resetCircle(id){
-
-
-let c=document.getElementById(id);
-
-
-c.innerHTML="0%";
-
-
-c.parentElement.style.background=
-"conic-gradient(#ddd 0deg,#ddd 360deg)";
+document.getElementById("assembleProgress")
+.style.width="0%";
 
 
 }
