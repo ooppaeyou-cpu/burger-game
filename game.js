@@ -13,122 +13,99 @@ let selectedCustomer = null;
 // ด่าน
 // ==========================
 
-let levels = [
+let levels=[
 
 {
 customers:2,
 mission:{
 serve:3,
-burger:2,
-fries:1
+burger:1
 }
 },
-
 
 {
 customers:2,
 mission:{
 serve:4,
+burger:2,
+fries:1
+}
+},
+
+{
+customers:2,
+mission:{
+serve:5,
 burger:3,
-fries:2,
 drink:1
 }
 },
-
-
-{
-customers:3,
-mission:{
-serve:5,
-burger:4,
-drink:3
-}
-},
-
 
 {
 customers:3,
 mission:{
 serve:6,
-fries:5,
-perfect:2
+fries:3,
+drink:2
 }
 },
 
+{
+customers:3,
+mission:{
+serve:7,
+burger:4,
+food:10
+}
+},
 
 {
 customers:3,
 mission:{
 serve:8,
 burger:5,
-drink:5
+fries:5
 }
 },
-
-
-{
-customers:4,
-mission:{
-serve:9,
-fries:8,
-perfect:5
-}
-},
-
 
 {
 customers:4,
 mission:{
 serve:10,
-burger:8,
-drink:8
+drink:5,
+perfect:3
 }
 },
 
+{
+customers:4,
+mission:{
+serve:10,
+burger:7
+}
+},
 
 {
-customers:5,
+customers:4,
 mission:{
 serve:12,
-food:30,
-perfect:8
+burger:8,
+fries:8
 }
 },
-
-
-{
-customers:5,
-mission:{
-serve:13,
-burger:12,
-fries:12
-}
-},
-
 
 {
 customers:5,
 mission:{
 serve:15,
-burger:15,
-fries:15,
-drink:10,
-perfect:10
+burger:10,
+fries:10,
+drink:8,
+perfect:5
 }
 }
 
 ];
-
-
-
-
-
-
-
-// ==========================
-// ลูกค้า
-// ==========================
-
 
 let customers=[];
 
