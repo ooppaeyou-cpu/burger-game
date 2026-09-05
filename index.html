@@ -3,7 +3,7 @@
 
 <head>
 
-<title>Burger Rush v7.1</title>
+<title>Burger Rush v8.1</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -13,67 +13,44 @@
 <body>
 
 
-<!-- เสียง -->
-
 <audio id="bgm" loop>
-<source src="sounds/bgm.wav">
+<source src="sounds/bgm.mp3">
 </audio>
 
 <audio id="clickSound">
-<source src="sounds/click.wav">
+<source src="sounds/click.mp3">
 </audio>
 
 <audio id="successSound">
-<source src="sounds/success.wav">
+<source src="sounds/success.mp3">
 </audio>
 
 <audio id="failSound">
-<source src="sounds/fail.wav">
-</audio>
-
-<audio id="levelSound">
-<source src="sounds/levelup.wav">
-</audio>
-
-<audio id="cookSound">
-<source src="sounds/cook_done.wav">
-</audio>
-
-<audio id="blendSound">
-<source src="sounds/blend_done.wav">
+<source src="sounds/fail.mp3">
 </audio>
 
 
 
 
 
-<!-- หน้าเริ่ม -->
+<!-- START -->
 
 <div id="startScreen">
 
+
 <h1>
-🍔 Burger Rush
+🍔 Burger Rush v8.1
 </h1>
 
 
 <h2>
-ด่าน <span id="startLevel">1</span>
+ร้านเบอร์เกอร์สุดป่วน
 </h2>
-
-
-<p>
-👥 ลูกค้า 
-<span id="startCustomer">
-5
-</span>
-คน
-</p>
-
 
 
 <button onclick="startGame()">
 
-▶ START GAME
+▶ START
 
 </button>
 
@@ -86,14 +63,16 @@
 
 
 
-<!-- Popup ด่าน -->
+
+
+<!-- ผ่านด่าน -->
 
 
 <div id="levelPopup">
 
 
 <h1>
-🎉 ผ่านด่าน!
+🎉 ผ่านด่าน
 </h1>
 
 
@@ -104,7 +83,7 @@
 
 <button onclick="nextLevel()">
 
-➡️ ด่านต่อไป
+ด่านต่อไป
 
 </button>
 
@@ -123,8 +102,9 @@
 
 
 <h1>
-🍔 Burger Rush v7.1
+🍔 Burger Rush
 </h1>
+
 
 
 
@@ -132,22 +112,60 @@
 
 
 <div>
-💰 <span id="money">0</span>
+🏆 ด่าน
+<span id="level">
+1
+</span>
 </div>
 
 
 <div>
-⭐ <span id="score">0</span>
+💰
+<span id="money">
+0
+</span>
 </div>
 
 
 <div>
-🏆 ด่าน <span id="level">1</span>
+⭐
+<span id="score">
+0
+</span>
 </div>
 
 
 <div>
-👥 <span id="served">0</span>
+👥 เสิร์ฟ
+<span id="served">
+0
+</span>
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- ภารกิจ -->
+
+
+<div id="missionBox">
+
+
+<h2>
+📋 ภารกิจ
+</h2>
+
+
+<div id="missionText">
+
+เริ่มเกมเพื่อดูภารกิจ
+
 </div>
 
 
@@ -163,35 +181,12 @@
 <!-- ลูกค้า -->
 
 
-<div class="customerBox">
+<h2>
+👥 ลูกค้าในร้าน
+</h2>
 
 
-<div id="queue">
-
-👤 👤 👤
-
-</div>
-
-
-
-<div id="customer">
-
-👤
-
-</div>
-
-
-<div id="order">
-
-รอเริ่มเกม
-
-</div>
-
-
-<div id="customerTimer">
-
-</div>
-
+<div id="customers">
 
 
 </div>
@@ -200,8 +195,21 @@
 
 
 
+<h3 id="selectedCustomer">
+
+เลือกลูกค้าเพื่อเสิร์ฟ
+
+</h3>
 
 
+
+
+
+
+
+
+
+<!-- ครัว -->
 
 
 <div class="kitchen">
@@ -222,8 +230,11 @@
 </h2>
 
 
-<div id="meat" class="food">
+<div id="meat"
+class="food">
+
 🥩
+
 </div>
 
 
@@ -237,26 +248,28 @@
 </div>
 
 
-<p id="meatWarning"></p>
 
+<p id="meatStatus">
+
+</p>
 
 
 <button onclick="cookMeat()">
 
-🔥 ทอด
+ทอดเนื้อ
 
 </button>
 
 
 <button onclick="throwMeat()">
 
-🗑️
+ทิ้ง
 
 </button>
 
 
-
 </div>
+
 
 
 
@@ -271,12 +284,12 @@
 
 
 <h2>
-🍟 เฟรนช์ฟรายส์
+🍟 เฟรน
 </h2>
 
 
-
-<div id="fries" class="food">
+<div id="fries"
+class="food">
 
 🥔
 
@@ -286,40 +299,34 @@
 
 <div class="circle">
 
-
 <div id="friesProgress">
-
 0%
+</div>
 
 </div>
 
 
-</div>
 
+<p id="friesStatus">
 
-
-<p id="friesWarning"></p>
-
+</p>
 
 
 <button onclick="cookFries()">
 
-🍟 ทอด
+ทอดเฟรน
 
 </button>
-
 
 
 <button onclick="throwFries()">
 
-🗑️
+ทิ้ง
 
 </button>
 
 
-
 </div>
-
 
 
 
@@ -339,7 +346,8 @@
 </h2>
 
 
-<div id="drink" class="food">
+<div id="drink"
+class="food">
 
 🍓
 
@@ -350,33 +358,30 @@
 <div class="circle">
 
 <div id="drinkProgress">
-
 0%
-
 </div>
 
 </div>
 
 
 
-<p id="drinkWarning"></p>
+<p id="drinkStatus">
 
+</p>
 
 
 <button onclick="blendDrink()">
 
-🥤 ปั่น
+ปั่นน้ำ
 
 </button>
-
 
 
 <button onclick="throwDrink()">
 
-🗑️
+ทิ้ง
 
 </button>
-
 
 
 </div>
@@ -400,15 +405,14 @@
 </h2>
 
 
-<div id="burger" class="food">
+<div id="burger"
+class="food">
 
 🍞
 
 </div>
 
 
-
-<div id="assembleBox">
 
 
 <div id="assembleText">
@@ -427,19 +431,17 @@
 </div>
 
 
-</div>
-
-
 
 <button onclick="makeBurger()">
 
-🍔 ประกอบ
+ประกอบ
 
 </button>
 
 
-
 </div>
+
+
 
 
 
@@ -455,9 +457,9 @@
 
 
 <button class="serve"
-onclick="serve()">
+onclick="serveCustomer()">
 
-🚗 ส่งลูกค้า
+🚗 เสิร์ฟลูกค้าที่เลือก
 
 </button>
 
@@ -470,7 +472,11 @@ onclick="serve()">
 
 
 
+
 </div>
+
+
+
 
 
 
@@ -480,5 +486,6 @@ onclick="serve()">
 
 
 </body>
+
 
 </html>
