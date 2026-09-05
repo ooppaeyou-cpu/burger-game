@@ -7,13 +7,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>
-Burger Rush v8.3
-</title>
-
+<title>Burger Rush v9.0</title>
 
 <link rel="stylesheet" href="style.css">
-
 
 </head>
 
@@ -21,64 +17,17 @@ Burger Rush v8.3
 <body>
 
 
-
-<!-- เสียง -->
-
-<audio id="bgm" loop>
-
-<source src="sounds/bgm.mp3">
-
-</audio>
-
-
-<audio id="clickSound">
-
-<source src="sounds/click.mp3">
-
-</audio>
-
-
-<audio id="successSound">
-
-<source src="sounds/success.mp3">
-
-</audio>
-
-
-<audio id="failSound">
-
-<source src="sounds/fail.mp3">
-
-</audio>
-
-
-
-
-
-
-
-
-<!-- หน้าเริ่มเกม -->
+<!-- START -->
 
 <div id="startScreen">
 
+<h1>🍔 Burger Rush</h1>
 
-<h1>
-🍔 Burger Rush
-</h1>
-
-
-<h2>
-v8.3 Stock System
-</h2>
-
+<h2>Cooking Game v9.0</h2>
 
 <button onclick="startGame()">
-
-▶ START GAME
-
+▶ START
 </button>
-
 
 </div>
 
@@ -86,32 +35,17 @@ v8.3 Stock System
 
 
 
-
-
-
-
-<!-- Popup ผ่านด่าน -->
+<!-- LEVEL POPUP -->
 
 <div id="levelPopup">
 
+<h1>🎉 ผ่านด่าน</h1>
 
-<h1>
-🎉 ผ่านด่าน!
-</h1>
-
-
-<div id="popupText">
-
-</div>
-
-
+<div id="popupText"></div>
 
 <button onclick="nextLevel()">
-
 ด่านต่อไป
-
 </button>
-
 
 </div>
 
@@ -120,84 +54,42 @@ v8.3 Stock System
 
 
 
+<!-- GAME -->
 
-
-
-<!-- เกมหลัก -->
-
-
-<div id="game">
-
+<div id="game" style="display:none;">
 
 
 <h1>
 🍔 Burger Rush
 </h1>
 
-
-
-
-
-<!-- ข้อมูลด้านบน -->
 
 
 <div class="top">
 
 
 <div>
-
 🏆 ด่าน
-
-<span id="level">
-
-1
-
-</span>
-
+<span id="level">1</span>
 </div>
 
 
-
 <div>
-
 💰
-
-<span id="money">
-
-0
-
-</span>
-
+<span id="money">0</span>
 </div>
 
 
-
 <div>
-
 ⭐
-
-<span id="score">
-
-0
-
-</span>
-
+<span id="score">0</span>
 </div>
-
 
 
 <div>
-
-👥 เสิร์ฟ
-
-<span id="served">
-
-0
-
-</span>
-
+👥
+<span id="served">0</span>
 </div>
-
 
 
 </div>
@@ -208,28 +100,23 @@ v8.3 Stock System
 
 
 
-
-
-<!-- สต็อก -->
-
+<!-- STOCK -->
 
 <div id="stockBox">
 
-
-🍖 เนื้อ x0
-
-<br>
-
-🍟 เฟรน x0
+🍖 เนื้อ : 0
 
 <br>
 
-🥤 น้ำ x0
+🍟 เฟรน : 0
 
 <br>
 
-🍔 เบอร์เกอร์ x0
+🥤 น้ำ : 0
 
+<br>
+
+🍔 เบอร์เกอร์ : 0
 
 </div>
 
@@ -240,24 +127,18 @@ v8.3 Stock System
 
 
 
-
-<!-- ภารกิจ -->
+<!-- MISSION -->
 
 
 <div id="missionBox">
 
-
 <h2>
-
 📋 ภารกิจ
-
 </h2>
 
 
 <div id="missionText">
 
-เริ่มเกม
-
 </div>
 
 
@@ -269,17 +150,12 @@ v8.3 Stock System
 
 
 
-
-
-<!-- ลูกค้า -->
+<!-- CUSTOMERS -->
 
 
 <h2>
-
-👥 ลูกค้าในร้าน
-
+👥 ลูกค้า
 </h2>
-
 
 
 <div id="customers">
@@ -290,7 +166,7 @@ v8.3 Stock System
 
 <h3 id="selectedCustomer">
 
-เลือกลูกค้า
+ยังไม่ได้เลือกลูกค้า
 
 </h3>
 
@@ -300,10 +176,7 @@ v8.3 Stock System
 
 
 
-
-
-<!-- ครัว -->
-
+<!-- KITCHEN -->
 
 <div class="kitchen">
 
@@ -312,52 +185,33 @@ v8.3 Stock System
 
 
 
-
-<!-- ทอดเนื้อ -->
-
+<!-- MEAT -->
 
 <div class="station">
 
 
 <h2>
-🔥 เนื้อ
+🔥 ทอดเนื้อ
 </h2>
 
 
-
 <div class="food">
-
 🥩
-
 </div>
-
 
 
 <div class="circle">
 
-
-<div id="meatProgress">
-
+<div id="meatTime">
 0%
-
 </div>
 
-
 </div>
-
-
-
-<p id="meatStatus">
-
-ยังไม่ได้ทอด
-
-</p>
-
 
 
 <button onclick="cookMeat()">
 
-ทอดเนื้อ
+ทอด
 
 </button>
 
@@ -380,52 +234,34 @@ v8.3 Stock System
 
 
 
-
-<!-- เฟรน -->
-
+<!-- FRIES -->
 
 <div class="station">
 
 
 <h2>
-🍟 เฟรน
+🍟 ทอดเฟรน
 </h2>
 
 
-
 <div class="food">
-
 🍟
-
 </div>
-
 
 
 <div class="circle">
 
-
-<div id="friesProgress">
-
+<div id="friesTime">
 0%
-
 </div>
 
-
 </div>
-
-
-
-<p id="friesStatus">
-
-ยังไม่ได้ทอด
-
-</p>
 
 
 
 <button onclick="cookFries()">
 
-ทอดเฟรน
+ทอด
 
 </button>
 
@@ -438,6 +274,7 @@ v8.3 Stock System
 </button>
 
 
+
 </div>
 
 
@@ -447,8 +284,7 @@ v8.3 Stock System
 
 
 
-
-<!-- น้ำ -->
+<!-- DRINK -->
 
 
 <div class="station">
@@ -459,40 +295,23 @@ v8.3 Stock System
 </h2>
 
 
-
 <div class="food">
-
 🥤
-
 </div>
-
 
 
 <div class="circle">
 
-
-<div id="drinkProgress">
-
+<div id="drinkTime">
 0%
+</div>
 
 </div>
 
 
-</div>
+<button onclick="makeDrink()">
 
-
-
-<p id="drinkStatus">
-
-ยังไม่ได้ปั่น
-
-</p>
-
-
-
-<button onclick="blendDrink()">
-
-ปั่นน้ำ
+ปั่น
 
 </button>
 
@@ -514,8 +333,7 @@ v8.3 Stock System
 
 
 
-
-<!-- ประกอบ -->
+<!-- BURGER -->
 
 
 <div class="station">
@@ -526,16 +344,12 @@ v8.3 Stock System
 </h2>
 
 
-
 <div class="food">
-
-🍞
-
+🍔
 </div>
 
 
-
-<div id="assembleText">
+<div id="burgerText">
 
 ยังไม่ได้ประกอบ
 
@@ -543,22 +357,9 @@ v8.3 Stock System
 
 
 
-<div id="assembleBar">
-
-
-<div id="assembleProgress">
-
-</div>
-
-
-</div>
-
-
-
-
 <button onclick="makeBurger()">
 
-ประกอบเบอร์เกอร์
+ประกอบ
 
 </button>
 
@@ -570,7 +371,6 @@ v8.3 Stock System
 
 
 
-
 </div>
 
 
@@ -580,16 +380,10 @@ v8.3 Stock System
 
 
 
-
-<!-- เสิร์ฟ -->
-
-
 <button class="serve"
 onclick="serveCustomer()">
 
-
-🚗 เสิร์ฟลูกค้า
-
+🚗 เสิร์ฟ
 
 </button>
 
@@ -604,9 +398,8 @@ onclick="serveCustomer()">
 
 
 
-
-
 </div>
+
 
 
 
@@ -618,6 +411,5 @@ onclick="serveCustomer()">
 
 
 </body>
-
 
 </html>
