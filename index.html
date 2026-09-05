@@ -7,7 +7,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Burger Rush v9.2</title>
+<title>Burger Rush v9.2.1</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -17,13 +17,15 @@
 <body>
 
 
-<!-- START -->
+
+<!-- START SCREEN -->
 
 <div id="startScreen">
 
+
 <h1>🍔 Burger Rush</h1>
 
-<h2>v9.2 Stable</h2>
+<h2>v9.2.1 Final Clean</h2>
 
 
 <button onclick="startGame()">
@@ -37,7 +39,11 @@
 
 
 
-<!-- POPUP -->
+
+
+
+<!-- LEVEL POPUP -->
+
 
 <div id="popup">
 
@@ -51,7 +57,7 @@
 
 
 <button onclick="closePopup()">
-ตกลง
+ไปต่อ
 </button>
 
 
@@ -64,9 +70,13 @@
 
 
 
+
+
 <!-- GAME -->
 
+
 <div id="game">
+
 
 
 <h1>
@@ -75,6 +85,11 @@
 
 
 
+
+
+
+
+<!-- TOP INFO -->
 
 
 <div class="top">
@@ -86,16 +101,19 @@
 </div>
 
 
+
 <div>
 💰
 <span id="money">0</span>
 </div>
 
 
+
 <div>
 ⭐
 <span id="score">0</span>
 </div>
+
 
 
 </div>
@@ -109,32 +127,36 @@
 
 <!-- STOCK -->
 
+
 <div id="stock">
 
 
-🍖 เนื้อ:
+<h2>
+📦 STOCK
+</h2>
+
+
+🍖 เนื้อ :
 <span id="meatStock">0</span>
 
-
 <br>
 
 
-🍟 เฟรน:
+🍟 เฟรน :
 <span id="friesStock">0</span>
 
-
 <br>
 
 
-🥤 น้ำ:
+🥤 น้ำ :
 <span id="drinkStock">0</span>
 
-
 <br>
 
 
-🍔 เบอร์เกอร์:
+🍔 เบอร์เกอร์ :
 <span id="burgerStock">0</span>
+
 
 
 </div>
@@ -145,7 +167,10 @@
 
 
 
+
+
 <!-- MISSION -->
+
 
 <div id="mission">
 
@@ -169,7 +194,8 @@
 
 
 
-<!-- CUSTOMERS -->
+
+<!-- CUSTOMER -->
 
 
 <h2>
@@ -182,9 +208,14 @@
 </div>
 
 
+
 <h3 id="selected">
+
 ยังไม่ได้เลือกลูกค้า
+
 </h3>
+
+
 
 
 
@@ -209,7 +240,7 @@
 
 
 <h2>
-🔥 เนื้อ
+🥩 ทอดเนื้อ
 </h2>
 
 
@@ -219,7 +250,9 @@
 0%
 </div>
 
+
 </div>
+
 
 
 <button onclick="cookMeat()">
@@ -227,9 +260,11 @@
 </button>
 
 
+
 <button onclick="throwMeat()">
-ทิ้ง
+🗑 ทิ้ง
 </button>
+
 
 
 <div id="meatStatus">
@@ -246,6 +281,7 @@
 
 
 
+
 <!-- FRIES -->
 
 
@@ -253,7 +289,7 @@
 
 
 <h2>
-🍟 เฟรน
+🍟 ทอดเฟรน
 </h2>
 
 
@@ -266,14 +302,17 @@
 </div>
 
 
+
 <button onclick="cookFries()">
 ทอดเฟรน
 </button>
 
 
+
 <button onclick="throwFries()">
-ทิ้ง
+🗑 ทิ้ง
 </button>
+
 
 
 <div id="friesStatus">
@@ -282,6 +321,7 @@
 
 
 </div>
+
 
 
 
@@ -301,40 +341,54 @@
 </h2>
 
 
+
 <div class="circle">
+
 
 <div id="drinkTimer">
 0%
 </div>
 
+
 </div>
+
+
 
 
 <button onclick="makeDrink()">
+
 ปั่นน้ำ
+
 </button>
+
 
 
 <button onclick="throwDrink()">
-ทิ้ง
+
+🗑 ทิ้ง
+
 </button>
 
 
+
 <div id="drinkStatus">
+
 ว่าง
-</div>
-
 
 </div>
 
 
+</div>
 
 
 
 
 
 
-<!-- BURGER -->
+
+
+
+<!-- BURGER ASSEMBLE -->
 
 
 <div class="station">
@@ -345,6 +399,7 @@
 </h2>
 
 
+
 <div id="burgerStatus">
 
 ยังไม่ได้ทำ
@@ -352,15 +407,15 @@
 </div>
 
 
+
+
 <button onclick="makeBurger()">
-ประกอบ
+
+ประกอบเบอร์เกอร์
+
 </button>
 
 
-</div>
-
-
-
 
 </div>
 
@@ -369,14 +424,33 @@
 
 
 
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- SERVE -->
+
+
+<br>
 
 
 <button class="serve"
 onclick="serveCustomer()">
 
-🚗 เสิร์ฟ
+🚗 เสิร์ฟลูกค้า
 
 </button>
+
+
+
 
 
 
@@ -386,8 +460,11 @@ onclick="serveCustomer()">
 
 
 
-</div>
 
+
+
+
+</div>
 
 
 
@@ -400,5 +477,6 @@ onclick="serveCustomer()">
 
 
 </body>
+
 
 </html>
