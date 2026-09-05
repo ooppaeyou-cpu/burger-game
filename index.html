@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Burger Rush v7.1</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- เสียง -->
+
+<audio id="bgm" loop>
+<source src="sounds/bgm.wav">
+</audio>
+
+<audio id="clickSound">
+<source src="sounds/click.wav">
+</audio>
+
+<audio id="successSound">
+<source src="sounds/success.wav">
+</audio>
+
+<audio id="failSound">
+<source src="sounds/fail.wav">
+</audio>
+
+<audio id="levelSound">
+<source src="sounds/levelup.wav">
+</audio>
+
+<audio id="cookSound">
+<source src="sounds/cook_done.wav">
+</audio>
+
+<audio id="blendSound">
+<source src="sounds/blend_done.wav">
+</audio>
+
+
+
+
+
+<!-- หน้าเริ่ม -->
+
+<div id="startScreen">
+
+<h1>
+🍔 Burger Rush
+</h1>
+
+
+<h2>
+ด่าน <span id="startLevel">1</span>
+</h2>
+
+
+<p>
+👥 ลูกค้า 
+<span id="startCustomer">
+5
+</span>
+คน
+</p>
+
+
+
+<button onclick="startGame()">
+
+▶ START GAME
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Popup ด่าน -->
+
+
+<div id="levelPopup">
+
+
+<h1>
+🎉 ผ่านด่าน!
+</h1>
+
+
+<div id="popupText">
+
+</div>
+
+
+<button onclick="nextLevel()">
+
+➡️ ด่านต่อไป
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div id="game">
+
+
+<h1>
+🍔 Burger Rush v7.1
+</h1>
+
+
+
+<div class="top">
+
+
+<div>
+💰 <span id="money">0</span>
+</div>
+
+
+<div>
+⭐ <span id="score">0</span>
+</div>
+
+
+<div>
+🏆 ด่าน <span id="level">1</span>
+</div>
+
+
+<div>
+👥 <span id="served">0</span>
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- ลูกค้า -->
+
+
+<div class="customerBox">
+
+
+<div id="queue">
+
+👤 👤 👤
+
+</div>
+
+
+
+<div id="customer">
+
+👤
+
+</div>
+
+
+<div id="order">
+
+รอเริ่มเกม
+
+</div>
+
+
+<div id="customerTimer">
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="kitchen">
+
+
+
+
+
+
+
+<!-- เนื้อ -->
+
+<div class="station">
+
+
+<h2>
+🔥 เนื้อ
+</h2>
+
+
+<div id="meat" class="food">
+🥩
+</div>
+
+
+
+<div class="circle">
+
+<div id="meatProgress">
+0%
+</div>
+
+</div>
+
+
+<p id="meatWarning"></p>
+
+
+
+<button onclick="cookMeat()">
+
+🔥 ทอด
+
+</button>
+
+
+<button onclick="throwMeat()">
+
+🗑️
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- เฟรน -->
+
+<div class="station">
+
+
+<h2>
+🍟 เฟรนช์ฟรายส์
+</h2>
+
+
+
+<div id="fries" class="food">
+
+🥔
+
+</div>
+
+
+
+<div class="circle">
+
+
+<div id="friesProgress">
+
+0%
+
+</div>
+
+
+</div>
+
+
+
+<p id="friesWarning"></p>
+
+
+
+<button onclick="cookFries()">
+
+🍟 ทอด
+
+</button>
+
+
+
+<button onclick="throwFries()">
+
+🗑️
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- น้ำ -->
+
+<div class="station">
+
+
+<h2>
+🥤 น้ำปั่น
+</h2>
+
+
+<div id="drink" class="food">
+
+🍓
+
+</div>
+
+
+
+<div class="circle">
+
+<div id="drinkProgress">
+
+0%
+
+</div>
+
+</div>
+
+
+
+<p id="drinkWarning"></p>
+
+
+
+<button onclick="blendDrink()">
+
+🥤 ปั่น
+
+</button>
+
+
+
+<button onclick="throwDrink()">
+
+🗑️
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ประกอบ -->
+
+
+<div class="station">
+
+
+<h2>
+🍔 ประกอบ
+</h2>
+
+
+<div id="burger" class="food">
+
+🍞
+
+</div>
+
+
+
+<div id="assembleBox">
+
+
+<div id="assembleText">
+
+ยังไม่ได้ประกอบ
+
+</div>
+
+
+<div id="assembleBar">
+
+<div id="assembleProgress">
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<button onclick="makeBurger()">
+
+🍔 ประกอบ
+
+</button>
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<button class="serve"
+onclick="serve()">
+
+🚗 ส่งลูกค้า
+
+</button>
+
+
+
+
+<h2 id="message">
+
+</h2>
+
+
+
+</div>
+
+
+
+
+
+<script src="game.js"></script>
+
+
+</body>
+
+</html>
